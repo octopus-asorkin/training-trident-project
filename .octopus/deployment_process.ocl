@@ -1,6 +1,7 @@
 step "deploy-a-package" {
     name = "Deploy Trident Website"
     properties = {
+        Octopus.Action.MaxParallelism = "1"
         Octopus.Action.TargetRoles = "trident-web"
     }
 
@@ -19,7 +20,6 @@ step "deploy-a-package" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
         }
-        worker_pool_variable = ""
     }
 
     action "deploy-a-package" {
