@@ -24,7 +24,7 @@ step "deploy-a-package" {
 
     action "deploy-a-package" {
         action_type = "Octopus.TentaclePackage"
-        name = "Deploy Trident.Web"
+        name = "Deploy Trident Website"
         properties = {
             Octopus.Action.EnabledFeatures = "Octopus.Features.JsonConfigurationVariables"
             Octopus.Action.Package.DownloadOnTentacle = "False"
