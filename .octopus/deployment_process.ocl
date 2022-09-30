@@ -8,7 +8,7 @@ step "deploy-a-package" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         is_required = true
-        name = "Remove server from load balancer"
+        name = "Remove Server from Load Balancer"
         properties = {
             Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptBody = <<-EOT
@@ -48,7 +48,7 @@ step "deploy-a-package" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         is_required = true
-        name = "Add server to load balancer"
+        name = "Add Server to Load Balancer"
         properties = {
             Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptBody = <<-EOT
@@ -65,7 +65,7 @@ step "deploy-a-package" {
 
 step "send-an-email" {
     condition = "Always"
-    name = "Send an Email"
+    name = "Notify Developers of Status"
 
     action {
         action_type = "Octopus.Email"
