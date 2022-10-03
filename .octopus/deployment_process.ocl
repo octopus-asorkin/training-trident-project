@@ -69,6 +69,7 @@ step "send-an-email" {
 
     action {
         action_type = "Octopus.Email"
+        is_required = true
         properties = {
             Octopus.Action.Email.Body = "#{Notification.Body.Text}"
             Octopus.Action.Email.Subject = "#{Notification.Subject.Text}"
