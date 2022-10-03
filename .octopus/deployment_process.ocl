@@ -87,6 +87,7 @@ step "slack-send-simple-notification-on-failure" {
     }
 
     action {
+        environments = ["production"]
         properties = {
             Octopus.Action.RunOnServer = "false"
             Octopus.Action.Template.Id = "ActionTemplates-81"
