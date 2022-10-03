@@ -16,6 +16,8 @@ step "deploy-a-package" {
                 $machineName = $OctopusParameters["Octopus.Machine.Name"]
                 
                 Write-Host "Remove $machineName from the Load Balancer."
+                
+                Exit 1
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
