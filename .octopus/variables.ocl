@@ -62,8 +62,6 @@ variable "ConnectionStrings:Database" {
 
 variable "Octopus.ServiceNow.ChangeRequest.Number" {
     value {
-        environment = ["production"]
-
         prompt {
             description = ""
             display_settings = {
