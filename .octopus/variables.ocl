@@ -59,9 +59,3 @@ variable "Project.Database.Name" {
 variable "ConnectionStrings:Database" {
     value "Server=#{Project.Database.Server.Name};Database=#{Project.Database.Name};User ID=#{Project.Database.User.Name};Password=#{Project.Database.User.Password};" {}
 }
-
-variable "Octopus.ServiceNow.ChangeRequest.Number" {
-    value {
-        environment = ["staging"]
-    }
-}
