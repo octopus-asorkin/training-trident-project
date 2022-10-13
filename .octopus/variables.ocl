@@ -61,5 +61,7 @@ variable "ConnectionStrings:Database" {
 }
 
 variable "Octopus.ServiceNow.ChangeRequest.Number" {
-    value {}
+    value {
+        environment = ["staging"]
+    }
 }
