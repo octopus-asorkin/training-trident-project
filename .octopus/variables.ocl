@@ -16,3 +16,7 @@ variable "Project.Database.Name" {
 variable "Project.Connection.String" {
     value "Server=(localdb)\\MSSQLLocalDB;Integrated Security=true;Database=#{Project.Database.Name}" {}
 }
+
+variable "Project.Database.Report.Path" {
+    value "C:\\DatabaseReports" {}
+}
