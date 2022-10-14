@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-=======
 step "run-the-trident-database-creation-runbook" {
-    name = "Run the Trident Database Creation runbook"
+    name = "Run the Trident Database Creation runbook-test"
 
     action {
         properties = {
@@ -26,7 +24,6 @@ step "run-the-trident-database-creation-runbook" {
     }
 }
 
->>>>>>> parent of e63e417... test step name change
 step "deploy-a-package" {
     name = "Deploy Trident Website"
     properties = {
