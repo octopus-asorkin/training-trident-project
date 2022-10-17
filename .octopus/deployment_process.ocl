@@ -65,6 +65,22 @@ step "generate-database-delta-report" {
     }
 }
 
+step "auto-approve-database-delta-script" {
+    name = "Auto-Approve Database Delta Script"
+
+    action {
+        properties = {
+            Databases.AutoApproval.ReportPath = "#{Project.Database.Report.Path}"
+            Databases.AutoApprove.CommandsIndicatingChange = "#{SQL.Verification.Change.List}"
+            Databases.AutoApprove.CommandsRequireApproval = "#{SQL.Verification.Command.List}"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Template.Id = "ActionTemplates-123"
+            Octopus.Action.Template.Version = "0"
+        }
+        worker_pool = "hosted-windows"
+    }
+}
+
 step "approve-database-delta-script" {
     condition = "Variable"
     name = "Approve Database Delta script"
@@ -218,18 +234,5 @@ step "slack-send-simple-notification-on-failure" {
             ssn_Username = "Trident Project in Octopus Deploy"
         }
         worker_pool_variable = ""
-    }
-}
-
-step "auto-approve-database-delta-script" {
-    name = "Auto-Approve Database Delta Script"
-
-    action {
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Template.Id = "ActionTemplates-123"
-            Octopus.Action.Template.Version = "0"
-        }
-        worker_pool = "hosted-windows"
     }
 }
