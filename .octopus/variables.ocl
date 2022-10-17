@@ -17,10 +17,10 @@ variable "Project.Connection.String" {
     value "Server=(localdb)\\MSSQLLocalDB;Integrated Security=true;Database=#{Project.Database.Name}" {}
 }
 
-variable "Project.Database.Report.Path" {
-    value "C:\\DatabaseReports" {}
-}
-
 variable "Project.Database.ApprovalRequired" {
     value "#{Octopus.Action[Generate Database Delta Report].Output.ApprovalRequired}" {}
+}
+
+variable "Project.Database.Report.Path" {
+    value "C:\\DatabaseReports\\#{Octopus.Environment.Name}" {}
 }
