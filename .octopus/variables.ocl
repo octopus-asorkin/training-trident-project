@@ -20,3 +20,7 @@ variable "Project.Connection.String" {
 variable "Project.Database.Report.Path" {
     value "C:\\DatabaseReports" {}
 }
+
+variable "Project.Database.ApprovalRequired" {
+    value "#{Octopus.Action[Auto-Approve Database Delta Script].Output.ApprovalRequired}" {}
+}
