@@ -1,3 +1,16 @@
+step "calculate-deployment-mode" {
+    name = "Calculate Deployment Mode"
+
+    action {
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Template.Id = "ActionTemplates-124"
+            Octopus.Action.Template.Version = "5"
+        }
+        worker_pool_variable = ""
+    }
+}
+
 step "run-the-trident-database-creation-runbook" {
     name = "Run the Trident Database Creation runbook"
 
