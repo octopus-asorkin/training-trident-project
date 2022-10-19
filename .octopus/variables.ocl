@@ -6,10 +6,6 @@ variable "Project.Connection.String" {
     value "Server=(localdb)\\MSSQLLocalDB;Integrated Security=true;Database=#{Project.Database.Name}" {}
 }
 
-variable "Project.Database.Report.Path" {
-    value "C:\\DatabaseReports\\#{Octopus.Environment.Name}" {}
-}
-
 variable "Project.Database.ApprovalRequired" {
     value "#{Octopus.Action[Auto-Approve Database Delta Script].Output.ApprovalRequired}" {}
 }
@@ -23,4 +19,8 @@ variable "Project.Database.Name" {
         description = ""
         environment = ["development", "qa", "staging"]
     }
+}
+
+variable "Project.Database.Report.Path" {
+    value "C:\\DatabaseReports\\#{Octopus.Environment.Name}\\#{Retail.Tenant.ShortName}" {}
 }
