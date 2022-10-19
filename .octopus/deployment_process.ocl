@@ -39,7 +39,7 @@ step "enable-maintenance-mode" {
 
 step "run-the-trident-database-creation-runbook" {
     condition = "Variable"
-    name = "Run the Trident Database Creation runbook"
+    name = "Run the Create Trident Database Runbook"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Octopus.Action[Calculate Deployment Mode].Output.RunOnDeploy}#{/unless}"
     }
@@ -65,6 +65,7 @@ step "run-the-trident-database-creation-runbook" {
             Run.Runbook.Name = "Create Trident Database"
             Run.Runbook.Project.Name = "Trident"
             Run.Runbook.Space.Name = "#{Octopus.Space.Name}"
+            Run.Runbook.Tenant.Name = "#{Octopus.Deployment.Tenant.Name}"
             Run.Runbook.UsePublishedSnapShot = "True"
             Run.Runbook.Waitforfinish = "True"
         }
