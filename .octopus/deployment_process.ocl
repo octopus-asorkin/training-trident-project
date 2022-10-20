@@ -275,7 +275,11 @@ step "run-update-load-balancer-runbook" {
             Run.Runbook.ManualIntervention.EnvironmentToUse = "#{Octopus.Environment.Name}"
             Run.Runbook.Name = "Update Canary Load Balancer"
             Run.Runbook.Project.Name = "Trident"
-            Run.Runbook.PromptedVariables = "Project.Loadbalancer.Percent::#{Project.Loadbalancer.Percent} Project.Loadbalancer.WaitInMinutes::#{Project.Loadbalancer.WaitInMinutes} Project.Loadbalancer.HostToUpdate::#{Project.Tenant.Loadbalancer.HostName}"
+            Run.Runbook.PromptedVariables = <<-EOT
+                Project.Loadbalancer.Percent::#{Project.Loadbalancer.Percent}
+                Project.Loadbalancer.WaitInMinutes::#{Project.Loadbalancer.WaitInMinutes}
+                Project.Loadbalancer.HostToUpdate::#{Project.Tenant.Loadbalancer.HostName}
+            EOT
             Run.Runbook.Space.Name = "#{Octopus.Space.Name}"
             Run.Runbook.UsePublishedSnapShot = "True"
             Run.Runbook.Waitforfinish = "False"
