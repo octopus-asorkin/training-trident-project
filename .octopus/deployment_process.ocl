@@ -257,9 +257,10 @@ step "verify-trident-website" {
 }
 
 step "run-update-load-balancer-runbook" {
-    name = "Run Update Load Balancer Runbook"
+    name = "Run Update Canary Load Balancer Runbook"
 
     action {
+        channels = ["release"]
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Template.Id = "ActionTemplates-122"
@@ -272,12 +273,12 @@ step "run-update-load-balancer-runbook" {
             Run.Runbook.Environment.Name = "#{Octopus.Environment.Name}"
             Run.Runbook.Machines = "N/A"
             Run.Runbook.ManualIntervention.EnvironmentToUse = "#{Octopus.Environment.Name}"
-            Run.Runbook.Name = "Update Load Balancer"
+            Run.Runbook.Name = "Update Canary Load Balancer"
             Run.Runbook.Project.Name = "Trident"
             Run.Runbook.PromptedVariables = "Project.Loadbalancer.Percent::#{Project.Loadbalancer.Percent} Project.Loadbalancer.WaitInMinutes::#{Project.Loadbalancer.WaitInMinutes} Project.Loadbalancer.HostToUpdate::#{Project.Tenant.Loadbalancer.HostName}"
             Run.Runbook.Space.Name = "#{Octopus.Space.Name}"
             Run.Runbook.UsePublishedSnapShot = "True"
-            Run.Runbook.Waitforfinish = "True"
+            Run.Runbook.Waitforfinish = "False"
         }
         worker_pool = "hosted-windows"
     }
