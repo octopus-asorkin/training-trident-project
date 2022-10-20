@@ -199,13 +199,14 @@ step "deploy-the-database-changes" {
 }
 
 step "deploy-trident-website-1" {
-    name = "Deploy Trident Website"
+    name = "Deploy Trident Website 1"
     properties = {
         Octopus.Action.TargetRoles = "trident-web"
     }
 
     action "deploy-a-package" {
         action_type = "Octopus.TentaclePackage"
+        name = "Deploy Trident Website"
         notes = <<-EOT
                 **Always Runs** 
                 
@@ -231,23 +232,27 @@ step "deploy-trident-website-1" {
     }
 }
 
-step "verify-trident-application" {
-    name = "Verify Trident Application"
+step "verify-trident-website" {
+    name = "Verify Trident Website"
 
     action {
-        action_type = "Octopus.Manual"
-        channels = ["hotfix"]
-        notes = <<-EOT
-                **Always Runs for the Release Channel**
-                
-                Pauses the deployment and allows for a quick sanity check of the application before disabling maintenance mode. 
-            EOT
+        action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.Manual.BlockConcurrentDeployments = "False"
-            Octopus.Action.Manual.Instructions = "Please verify the Trident application."
-            Octopus.Action.Manual.ResponsibleTeamIds = "trident-qa,developers,global/octopus-managers"
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                $randomNumber = Get-Random -Minimum 1 -Maximum 100
+                
+                Write-Host "The random number is $randomNumber.  If it is above 90, this will fail the step."
+                if ($randomNumber -ge 90)
+                {
+                	Write-Host "An error occurred verifying the application."
+                    exit 1
+                }
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
         }
-        worker_pool_variable = ""
+        worker_pool = "hosted-windows"
     }
 }
 
