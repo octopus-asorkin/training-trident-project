@@ -17,26 +17,6 @@ step "calculate-deployment-mode" {
     }
 }
 
-step "enable-maintenance-mode" {
-    name = "Enable Maintenance Mode"
-
-    action {
-        action_type = "Octopus.Script"
-        notes = <<-EOT
-                **Always Runs**
-                
-                Runs a script that will redirect all traffic to a maintenance page during the deployment.  Engineers will need to access the site via IP address or specific host name.
-            EOT
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "Write-Highlight \"Enable Maintenance Mode\""
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
-        }
-        worker_pool = "hosted-windows"
-    }
-}
-
 step "run-the-trident-database-creation-runbook" {
     condition = "Variable"
     name = "Run the Create Trident Database Runbook"
@@ -131,7 +111,7 @@ step "auto-approve-database-delta-script" {
     }
 
     action {
-        environments = ["staging"]
+        environments = ["staging-blue", "staging-green"]
         notes = <<-EOT
                 **Runs on Deployments Only** 
                 
@@ -159,7 +139,7 @@ step "approve-database-delta-script" {
 
     action {
         action_type = "Octopus.Manual"
-        environments = ["staging"]
+        environments = ["staging-blue", "staging-green"]
         notes = <<-EOT
                 **Runs on Deployments Only**
                 
@@ -273,20 +253,22 @@ step "verify-trident-application" {
 }
 
 step "disable-maintenance-mode" {
-    name = "Disable Maintenance Mode"
+    name = "Update Load Balancer to Blue or Green"
 
     action {
         action_type = "Octopus.Script"
+        channels = ["release", "hotfix"]
         notes = <<-EOT
                 **Always Runs**
                 
-                Runs as script that will disable the traffic redirects.
-                
-                _**Please Note:** If the deployment fails, this step will not run and the application will continue to be in maintenance mode!_
+                Updates the load balancer to direct to blue or green, depending on where deployment occurred last.
             EOT
         properties = {
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = "Write-Highlight \"Disable Maintenance Mode\""
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                Write-Highlight "Disable Maintenance Mode"$currentEnvironment = $OctopusParameters["Octopus.Environment.Name"]
+                Write-Highlight "Updating load balancer to point to $currentEnvironment"
+            EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "PowerShell"
         }
