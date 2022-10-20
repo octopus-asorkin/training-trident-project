@@ -199,7 +199,7 @@ step "deploy-the-database-changes" {
 }
 
 step "deploy-trident-website-1" {
-    name = "Deploy Trident Website "
+    name = "Deploy Trident Website"
     properties = {
         Octopus.Action.TargetRoles = "trident-web"
     }
