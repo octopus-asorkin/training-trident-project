@@ -25,14 +25,14 @@ variable "Project.Database.Name" {
 }
 
 variable "Project.Database.Report.Path" {
-    value "C:\\DatabaseReports#{Octopus.Environment.Name}#{Retail.Tenant.ShortName}" {}
+    value "C:\\DatabaseReports\\#{Octopus.Environment.Name}\\#{Retail.Tenant.ShortName}" {}
 
-    value "C:\\DatabaseReports\\Production#{Retail.Tenant.ShortName}" {
+    value "C:\\DatabaseReports\\Production\\#{Retail.Tenant.ShortName}" {
         description = ""
         environment = ["production-blue", "production-green"]
     }
 
-    value "C:\\DatabaseReports\\Staging#{Retail.Tenant.ShortName}" {
+    value "C:\\DatabaseReports\\Staging\\#{Retail.Tenant.ShortName}" {
         description = ""
         environment = ["staging-blue", "staging-green"]
     }
