@@ -256,25 +256,28 @@ step "verify-trident-website" {
     }
 }
 
-step "disable-maintenance-mode" {
-    name = "Update Load Balancer to Blue or Green"
+step "run-update-load-balancer-runbook" {
+    name = "Run Update Load Balancer Runbook"
 
     action {
-        action_type = "Octopus.Script"
-        channels = ["release", "hotfix"]
-        notes = <<-EOT
-                **Always Runs**
-                
-                Updates the load balancer to direct to blue or green, depending on where deployment occurred last.
-            EOT
         properties = {
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                $currentEnvironment = $OctopusParameters["Octopus.Environment.Name"]
-                Write-Highlight "Updating load balancer to point to $currentEnvironment"
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "PowerShell"
+            Octopus.Action.Template.Id = "ActionTemplates-122"
+            Octopus.Action.Template.Version = "14"
+            Run.Runbook.Api.Key = "#{Project.Runbook.Api.Key}"
+            Run.Runbook.AutoApproveManualInterventions = "No"
+            Run.Runbook.Base.Url = "#{Octopus.Web.ServerUri}"
+            Run.Runbook.CancelInSeconds = "1800"
+            Run.Runbook.DateTime = "N/A"
+            Run.Runbook.Environment.Name = "#{Octopus.Environment.Name}"
+            Run.Runbook.Machines = "N/A"
+            Run.Runbook.ManualIntervention.EnvironmentToUse = "#{Octopus.Environment.Name}"
+            Run.Runbook.Name = "Update Load Balancer"
+            Run.Runbook.Project.Name = "Trident"
+            Run.Runbook.PromptedVariables = "Project.Loadbalancer.Percent::#{Project.Loadbalancer.Percent} Project.Loadbalancer.WaitInMinutes::#{Project.Loadbalancer.WaitInMinutes} Project.Loadbalancer.HostToUpdate::#{Project.Tenant.Loadbalancer.HostName}"
+            Run.Runbook.Space.Name = "#{Octopus.Space.Name}"
+            Run.Runbook.UsePublishedSnapShot = "True"
+            Run.Runbook.Waitforfinish = "True"
         }
         worker_pool = "hosted-windows"
     }
