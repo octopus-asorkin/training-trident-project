@@ -37,3 +37,39 @@ variable "Project.Database.Report.Path" {
         environment = ["staging-blue", "staging-green"]
     }
 }
+
+variable "Project.Loadbalancer.HostToUpdate" {
+    value "#{Project.Tenant.Loadbalancer.HostName}" {
+        environment = ["staging-blue", "staging-green", "production-blue", "production-green"]
+        process = ["runbook/update-load-balancer"]
+
+        prompt {
+            description = ""
+            label = ""
+        }
+    }
+}
+
+variable "Project.Loadbalancer.WaitInMinutes" {
+    value "10" {
+        environment = ["staging-blue", "staging-green", "production-blue", "production-green"]
+        process = ["deployment-process", "runbook/update-load-balancer"]
+
+        prompt {
+            description = ""
+            label = ""
+        }
+    }
+}
+
+variable "Project.Loadbalancer.Percent" {
+    value "10" {
+        environment = ["staging-blue", "staging-green", "production-blue", "production-green"]
+        process = ["runbook/update-load-balancer", "deployment-process"]
+
+        prompt {
+            description = ""
+            label = ""
+        }
+    }
+}
